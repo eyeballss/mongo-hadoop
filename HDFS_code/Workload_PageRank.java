@@ -22,8 +22,6 @@ public class Workload_PageRank {
 		job.setNumReduceTasks(1);
 		job.setMapperClass(PreparingMap.class);
 		job.setReducerClass(PreparingReduce.class);
-		// job.setMapOutputKeyClass(Text.class);
-		// job.setMapOutputValueClass(Text.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 		FileInputFormat.addInputPath(job, new Path(args[0]));
@@ -34,7 +32,6 @@ public class Workload_PageRank {
 		for (i = 1; i <= 2; i++) {
 			Job job2 = Job.getInstance(conf, "PageRank");
 			job2.setJarByClass(Workload_PageRank.class);
-			// job.setNumReduceTasks(0);
 			job2.setMapperClass(PageRankMap.class);
 			job2.setReducerClass(PageRankReduce.class);
 			job2.setMapOutputKeyClass(Text.class);
@@ -50,9 +47,6 @@ public class Workload_PageRank {
 		job3.setJarByClass(Workload_PageRank.class);
 		job3.setNumReduceTasks(0);
 		job3.setMapperClass(FinishingMap.class);
-		// job3.setReducerClass(FinishingReduce.class);
-		// job.setMapOutputKeyClass(Text.class);
-		// job.setMapOutputValueClass(Text.class);
 		job3.setOutputKeyClass(Text.class);
 		job3.setOutputValueClass(Text.class);
 		FileInputFormat.addInputPath(job3, new Path(args[0] + "-pr" + (i - 1)));
