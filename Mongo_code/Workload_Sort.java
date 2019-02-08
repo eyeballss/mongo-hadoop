@@ -45,12 +45,12 @@ public class Sort {
         job.waitForCompletion(true);
     }
 
-    public static class Map extends Mapper<ObjectId, BSONObject, Text, Text> {
+    public static class Map extends Mapper<Integer, BSONObject, Text, Text> {
 
         Text id = new Text();
         private Text frequency = new Text();
 
-        public void map(ObjectId key, BSONObject value, Context context) throws IOException, InterruptedException {
+        public void map(Integer key, BSONObject value, Context context) throws IOException, InterruptedException {
             String w = key.toString();
             String freq = String.valueOf(value.get("value"));
 
