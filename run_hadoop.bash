@@ -12,7 +12,6 @@ sudo rm -r -f classes
 mkdir classes
 javac -classpath `hadoop classpath` -d classes $1.java
 jar -cvf $1.jar -C classes/ .
-hadoop fs -rm -r -f $2-*
-hadoop fs -rm -r -f $2.out
+hadoop fs -rm -r -f $2.*
 hadoop jar $1.jar $1 $2 $2.out
 hadoop fs -cat $2.out/* > result
