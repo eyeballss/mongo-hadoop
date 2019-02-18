@@ -25,8 +25,7 @@ import com.mongodb.hadoop.MongoOutputFormat;
 import com.mongodb.hadoop.io.BSONWritable;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
-public class Workload_MatrixMultiply {
-
+public class MatrixMultiply {
 	public static void main(String[] args) throws Exception {
 		if (args.length != 2) {
 			System.err.println("Usage: MatrixMultiply <in_dir> <out_dir>");
@@ -37,13 +36,17 @@ public class Workload_MatrixMultiply {
     MongoConfigUtil.setInputURI(conf, "mongodb://" + args[0]);
     MongoConfigUtil.setOutputURI(conf, "mongodb://" + args[1]);
 
+		// query example
+		//MongoConfigUtil.setQuery(conf, "{\"m\": \"M\"}");
+		//MongoConfigUtil.setQuery(conf, "{\"j\": {\"$lt\": 1000 } }");
+
 		// M is an m-by-n matrix; N is an n-by-p matrix.
-		conf.set("m", "1000");
-		conf.set("n", "100");
-		conf.set("p", "1000");
+		conf.set("m", "10");
+		conf.set("n", "500000");
+		conf.set("p", "10");
 		@SuppressWarnings("deprecation")
 			Job job = new Job(conf, "MatrixMultiply");
-		job.setJarByClass(Workload_MatrixMultiply.class);
+		job.setJarByClass(MatrixMultiply.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 
@@ -53,22 +56,20 @@ public class Workload_MatrixMultiply {
 		job.setInputFormatClass(MongoInputFormat.class);
 		job.setOutputFormatClass(MongoOutputFormat.class);
 
-		//FileInputFormat.addInputPath(job, new Path(args[0]));
-		//FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
 		job.waitForCompletion(true);
 	}
 
 	public static class Map
 		extends Mapper<ObjectId, BSONObject, Text, Text> {
-			@Override
 				public void map(ObjectId key, BSONObject value, Context context)
 				throws IOException, InterruptedException {
 					Configuration conf = context.getConfiguration();
+
 					int m = Integer.parseInt(conf.get("m"));
 					int p = Integer.parseInt(conf.get("p"));
 
-					String c = String.valueOf(value.get("c"));
+					String c = String.valueOf(value.get("m"));
+
 					int i = Integer.parseInt(String.valueOf(value.get("i")));
 					int j = Integer.parseInt(String.valueOf(value.get("j")));
 					int v = Integer.parseInt(String.valueOf(value.get("v")));
@@ -77,7 +78,6 @@ public class Workload_MatrixMultiply {
 					Text outputKey = new Text();
 					Text outputValue = new Text();
 
-					// handle with if-else statement (efficient?)
 					if (c.equals("M")) {
 						for (int k = 0; k < p; k++) {
 							outputKey.set(i + "," + k);
@@ -132,5 +132,4 @@ public class Workload_MatrixMultiply {
 					}
 				}
 		}
-
 }

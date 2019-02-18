@@ -16,7 +16,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import java.util.HashMap;
 
-public class Workload_MatrixMultiply {
+public class MatrixMultiply {
 
 	public static void main(String[] args) throws Exception {
 		if (args.length != 2) {
@@ -25,12 +25,12 @@ public class Workload_MatrixMultiply {
 		}
 		Configuration conf = new Configuration();
 		// M is an m-by-n matrix; N is an n-by-p matrix.
-		conf.set("m", "1000");
-		conf.set("n", "100");
-		conf.set("p", "1000");
+		conf.set("m", "10");
+		conf.set("n", "500000");
+		conf.set("p", "10");
 		@SuppressWarnings("deprecation")
 			Job job = new Job(conf, "MatrixMultiply");
-		job.setJarByClass(Workload_MatrixMultiply.class);
+		job.setJarByClass(MatrixMultiply.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 
