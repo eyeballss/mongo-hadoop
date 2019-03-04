@@ -29,6 +29,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.MongoOutputFormat;
 import com.mongodb.hadoop.io.BSONWritable;
+import com.mongodb.hadoop.splitter.ShardMongoSplitter;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
 public class PageRank {
@@ -42,6 +43,7 @@ public class PageRank {
 		Configuration conf = new Configuration();
 
 		MongoConfigUtil.setInputURI(conf, "mongodb://mongo-router/dataset.data");
+		MongoConfigUtil.setSplitterClass(conf, ShardMongoSplitter.class);
 
 		MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://mongo-router:27017"));
 		MongoDatabase database = mongoClient.getDatabase("dataset");
