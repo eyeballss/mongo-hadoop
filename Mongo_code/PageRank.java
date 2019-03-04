@@ -38,10 +38,6 @@ public class PageRank {
 	private static final double DAMPING_FACTOR = 0.85;
 	private static final String SEPARATOR = "\t";
 
-	static {
-		URL.setURLStreamHandlerFactory(new FsUrlStreamHandlerFactory());
-	}
-
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 
