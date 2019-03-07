@@ -179,6 +179,8 @@ public class MatrixMultiply {
 					JSONObject k_tmp = new JSONObject();
 					String outKey;
 					int outVal;
+				
+					// make all combinations
 					for(int i=0; i<i_json.length(); i++) {
 						i_tmp = i_json.getJSONObject(i);
 
