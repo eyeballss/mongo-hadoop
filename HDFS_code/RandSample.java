@@ -10,7 +10,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-public class Workload_RandSample {
+public class RandSample {
 	private static final String THRESHOLD_NAME = "threshold";
 	private static final String THRESHOLD_VALUE = "0.2";
 
@@ -18,8 +18,8 @@ public class Workload_RandSample {
 		Configuration conf = new Configuration();
 		conf.set(THRESHOLD_NAME, THRESHOLD_VALUE);
 
-		Job job = Job.getInstance(conf, "Workload_RandSample");
-		job.setJarByClass(Workload_RandSample.class);
+		Job job = Job.getInstance(conf, "RandSample");
+		job.setJarByClass(RandSample.class);
 
 		job.setMapperClass(Map.class);
 		job.setNumReduceTasks(0);
@@ -33,7 +33,7 @@ public class Workload_RandSample {
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[0] + ".out"));
 
-		job.waitForCompletion(true);
+		System.exit(job.waitForCompletion(true) ? 0 : 1);
 	}
 
 	public static class Map extends Mapper<Object, Text, NullWritable, Text> {
