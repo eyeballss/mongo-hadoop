@@ -2,8 +2,6 @@ import java.io.IOException;
 import java.util.Random;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.io.NullWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BasicBSONObject;
@@ -33,11 +31,11 @@ public class RandSample {
 		job.setMapperClass(Map.class);
 		job.setNumReduceTasks(0);
 
-		job.setMapOutputKeyClass(NullWritable.class);
-		job.setMapOutputValueClass(Text.class);
+		job.setMapOutputKeyClass(Integer.class);
+		job.setMapOutputValueClass(BSONWritable.class);
 
-		job.setOutputKeyClass(NullWritable.class);
-		job.setOutputValueClass(Text.class);
+		job.setOutputKeyClass(Integer.class);
+		job.setOutputValueClass(BSONWritable.class);
 
 		job.setInputFormatClass(MongoInputFormat.class);
 		job.setOutputFormatClass(MongoOutputFormat.class);
