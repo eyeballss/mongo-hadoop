@@ -16,6 +16,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.MongoOutputFormat;
 import com.mongodb.hadoop.io.BSONWritable;
+import com.mongodb.hadoop.splitter.ShardMongoSplitter;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
 public class PageRank_NoQuery {
@@ -139,6 +140,7 @@ public class PageRank_NoQuery {
 	private static Job pretreatmentJobSetting(Configuration conf, String[] args, String from, String to)
 			throws IOException {
 		MongoConfigUtil.setInputURI(conf, "mongodb://" + args[0] + from);
+                MongoConfigUtil.setSplitterClass(conf, ShardMongoSplitter.class);
 
 		Job job = Job.getInstance(conf, "pretreatment");
 		job.setJarByClass(PageRank_NoQuery.class);
